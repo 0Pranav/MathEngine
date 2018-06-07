@@ -24,7 +24,7 @@ public class  Matrix3n  {
     }
     //Duplicator
     public Matrix3n(Matrix3n m){
-        for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) Matrix[i][j] = m[i][j];
+        for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) Matrix[i][j] = m.Matrix[i][j];
     }
     //Matrix Arithmetic
     public Matrix3n add(Matrix3n m){
