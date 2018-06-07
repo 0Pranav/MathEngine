@@ -66,5 +66,37 @@ public class  Matrix3n  {
         }
         return new Matrix3n(resultMatrix);
     }
-    //
+    //Transpose of the Matrix
+    public  Matrix3n transposeOf(){
+        float[][] matrix= Matrix.clone();
+        float temp;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(i!=j){
+                       temp=matrix[i][j];
+                       matrix[i][j]=matrix[j][i];
+                       matrix[j][i]= temp;
+                }
+            }
+        }
+        return new Matrix3n(matrix);
+    }
+    public Matrix3n inverseOf(){
+        float[][] resultMatrix= new float[3][3];
+        //formulae https://static1.squarespace.com/static/54851541e4b0fb60932ad015/t/56e46ae32eeb814141161878/1457810151664/?format=750w
+        resultMatrix[0][0]=Matrix[1][1]*Matrix[2][2]-Matrix[1][2]*Matrix[2][1];
+        resultMatrix[0][1]=-(Matrix[0][1]*Matrix[2][2]-Matrix[0][2]*Matrix[2][1]);
+        resultMatrix[0][2]=Matrix[0][1]*Matrix[1][2]-Matrix[1][1]*Matrix[0][2];
+        resultMatrix[1][0]=-(Matrix[1][0]*Matrix[2][2]-Matrix[1][2]*Matrix[2][0]);
+        resultMatrix[1][1]=Matrix[0][0]*Matrix[2][2]-Matrix[0][2]*Matrix[2][0];
+        resultMatrix[1][2]=-(Matrix[0][0]*Matrix[1][2]-Matrix[1][0]*Matrix[0][2]);
+        resultMatrix[2][0]=Matrix[1][0]*Matrix[2][1]-Matrix[1][1]*Matrix[2][0];
+        resultMatrix[2][1]=-(Matrix[0][0]*Matrix[2][1]-Matrix[0][1]*Matrix[2][0]);
+        resultMatrix[2][2]=Matrix[0][0]*Matrix[1][1]-Matrix[0][1]*Matrix[1][0];
+        Matrix3n cofactorMatrix= new Matrix3n(resultMatrix);
+        float det=Matrix[0][0]*resultMatrix[0][0]+Matrix[0][1]*resultMatrix[0][1]+Matrix[0][2]*resultMatrix[0][2];
+        cofactorMatrix=cofactorMatrix.transposeOf();
+        Matrix3n result = cofactorMatrix.multiplyBy(1/det);
+        return result;
+    }
 }
