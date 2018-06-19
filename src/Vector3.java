@@ -29,7 +29,7 @@ public class Vector3 {
         y= obj.y;
         z= obj.z;
     }
-    //Arithmatic Operations
+    //Arithmetic Operations
     public Vector3 subtract(Vector3 sub){
         float result_x=x-sub.x;
         float result_y=y-sub.y;
@@ -42,11 +42,11 @@ public class Vector3 {
         float result_z=z+add.z;
         return  new Vector3(result_x,result_y,result_z);
     }
-    public Vector3 dot(Vector3 dot){
+    public float dot(Vector3 dot){
         float result_x=x*dot.x;
         float result_y=y*dot.y;
         float result_z=z*dot.z;
-        return  new Vector3(result_x,result_y,result_z);
+        return (result_x+result_y+result_z);
     }
     public Vector3 multiplyBy(float scalar){
         float result_x=scalar*x;
@@ -80,5 +80,21 @@ public class Vector3 {
         else
             output=output+"+"+z+"k";
         return output;
+    }
+    public Vector3 transformByMatrix(Matrix3n m){
+        return new Vector3(
+                m.Matrix[0][0]*x+m.Matrix[1][0]*x+m.Matrix[2][0]*x,
+                m.Matrix[0][0]*x+m.Matrix[1][0]*x+m.Matrix[2][0]*x,
+                m.Matrix[0][0]*x+m.Matrix[1][0]*x+m.Matrix[2][0]*x
+        );
+    }
+    public Vector3 rotateVectorByAngleAboutAxis(float uAngle,Vector3 uAxis){
+        Quaternion p = new Quaternion(0,this);
+        uAxis=uAxis.unitVector();
+        Quaternion q = new Quaternion(uAngle,uAxis);
+        q=q.getUnitNorm();
+        Quaternion qInverse= q.getInverse();
+        Quaternion rotatedVector = (q.multiplyBy(p)).multiplyBy(qInverse);
+        return rotatedVector.v;
     }
 }
